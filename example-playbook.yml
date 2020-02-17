@@ -25,7 +25,7 @@
       username: admin
       password: <>
       xapi_path: ['Configuration', 'Logging', 'External', 'Protocol']
-      xapi_value: syslog
+      xapi_value: Syslog
 
   - name: Set Syslog Address
     cisco_ce_config:
