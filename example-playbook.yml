@@ -1,0 +1,52 @@
+---
+
+- hosts: localhost
+
+  tasks:
+  - name: Set NTP Server 2 hostname
+    cisco_ce_config:
+      hostname: "10.10.20.161"
+      username: admin
+      password: <>
+      xapi_path: ['Configuration', 'NetworkServices', 'NTP', 'Server', 2, 'Address']
+      xapi_value: 1.uk.pool.ntp.org
+
+  - name: Set Syslog On
+    cisco_ce_config:
+      hostname: "10.10.20.161"
+      username: admin
+      password: <>
+      xapi_path: ['Configuration', 'Logging', 'External', 'Mode']
+      xapi_value: "On"
+
+  - name: Set Syslog Protocol
+    cisco_ce_config:
+      hostname: "10.10.20.161"
+      username: admin
+      password: <>
+      xapi_path: ['Configuration', 'Logging', 'External', 'Protocol']
+      xapi_value: syslog
+
+  - name: Set Syslog Address
+    cisco_ce_config:
+      hostname: "10.10.20.161"
+      username: admin
+      password: <>
+      xapi_path: ['Configuration', 'Logging', 'External', 'Server', 'Address']
+      xapi_value: "10.10.20.161"
+
+  - name: Set Syslog Port
+    cisco_ce_config:
+      hostname: "10.10.20.161"
+      username: admin
+      password: <>
+      xapi_path: ['Configuration', 'Logging', 'External', 'Server', 'Port']
+      xapi_value: "514"
+
+  - name: Disable Syslog TLS Verify
+    cisco_ce_config:
+      hostname: "10.10.20.161"
+      username: admin
+      password: <>
+      xapi_path: ['Configuration', 'Logging', 'External', 'TlsVerify']
+      xapi_value: "Off"
