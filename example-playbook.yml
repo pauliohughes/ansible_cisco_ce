@@ -1,52 +1,59 @@
 ---
 
-- hosts: localhost
+- hosts: roomkit
+  gather_facts: false
 
   tasks:
   - name: Set NTP Server 2 hostname
     cisco_ce_config:
-      hostname: "10.10.20.161"
-      username: admin
-      password: <>
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'NetworkServices', 'NTP', 'Server', 2, 'Address']
       xapi_value: 1.uk.pool.ntp.org
+    delegate_to: localhost
 
   - name: Set Syslog On
     cisco_ce_config:
-      hostname: "10.10.20.161"
-      username: admin
-      password: <>
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'Logging', 'External', 'Mode']
       xapi_value: "On"
+    delegate_to: localhost
 
   - name: Set Syslog Protocol
     cisco_ce_config:
-      hostname: "10.10.20.161"
-      username: admin
-      password: <>
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'Logging', 'External', 'Protocol']
       xapi_value: Syslog
+    delegate_to: localhost
 
   - name: Set Syslog Address
     cisco_ce_config:
-      hostname: "10.10.20.161"
-      username: admin
-      password: <>
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'Logging', 'External', 'Server', 'Address']
-      xapi_value: "10.10.20.161"
+      xapi_value: "10.10.20.159"
+    delegate_to: localhost
 
   - name: Set Syslog Port
     cisco_ce_config:
-      hostname: "10.10.20.161"
-      username: admin
-      password: <>
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'Logging', 'External', 'Server', 'Port']
       xapi_value: "514"
+    delegate_to: localhost
 
   - name: Disable Syslog TLS Verify
     cisco_ce_config:
-      hostname: "10.10.20.161"
-      username: admin
-      password: <>
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'Logging', 'External', 'TlsVerify']
       xapi_value: "Off"
+    delegate_to: localhost

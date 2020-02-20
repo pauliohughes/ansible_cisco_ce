@@ -1,8 +1,8 @@
 { "ANSIBLE_MODULE_ARGS":
     {
-        "hostname": "10.10.20.161",
+        "hostname": "10.10.20.159",
         "username": "admin",
-        "password": "<>",
+        "password": "ciscopsdt",
         "xapi_path": ["Configuration", "NetworkServices", "NTP", "Server", 2, "Address"],
         "xapi_value": "1.uk.pool.ntp.org"
     }
