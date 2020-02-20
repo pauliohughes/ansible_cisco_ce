@@ -64,6 +64,9 @@ def run_module():
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
 
+    
+    
+
     import xows
     import asyncio
 
@@ -76,30 +79,41 @@ def run_module():
 
     get_result = asyncio.run(get_current_config())
 
-        
+    # Check if the xapi_value is in int to ensure idempotency will work with the api
+    # If we get an int back from the API check if xapi is an int too
+    if isinstance(get_result, int):
+        try:
+            desired_xapi_value = int(module.params['xapi_value'])
+        except:
+            # Its not an int, continue as string
+            desired_xapi_value = module.params['xapi_value']
+    
+    else:
+        desired_xapi_value = module.params['xapi_value']
+
     # Config  matches
-    if module.params['xapi_value'] == get_result:
+    if desired_xapi_value == get_result:
         result['changed'] = False
-        result['xapi_value'] = module.params['xapi_value']
+        result['xapi_value'] = desired_xapi_value
         result['original_xapi_value'] = get_result
 
     # Config doesn't match so need a change
     else: 
         result['changed'] = True
-        result['xapi_value'] = module.params['xapi_value']
+        result['xapi_value'] = desired_xapi_value
         result['original_xapi_value'] = get_result
 
     # Make the change if Check mode isn't on
-    if not module.params['xapi_value'] == get_result and not module.check_mode:
+    if not desired_xapi_value == get_result and not module.check_mode:
         result['changed'] = True
-        result['xapi_value'] = module.params['xapi_value']
+        result['xapi_value'] = desired_xapi_value
         result['original_xapi_value'] = get_result
 
         async def set_config():
             async with xows.XoWSClient(module.params['hostname'], 
                                         username=module.params['username'], 
                                         password=module.params['password']) as client:
-                set_result = await client.xSet(module.params['xapi_path'], module.params['xapi_value'])
+                set_result = await client.xSet(module.params['xapi_path'], desired_xapi_value)
                 return set_result
 
 
