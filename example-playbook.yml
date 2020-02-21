@@ -11,6 +11,7 @@
       password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'NetworkServices', 'NTP', 'Server', 2, 'Address']
       xapi_value: 1.uk.pool.ntp.org
+      state: absent
     delegate_to: localhost
 
   - name: Set Syslog On
@@ -37,7 +38,8 @@
       username: "{{ ansible_user }}"
       password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'Logging', 'External', 'Server', 'Address']
-      xapi_value: "10.10.20.159"
+      xapi_value: "10.10.20.160"
+      state: present
     delegate_to: localhost
 
   - name: Set Syslog Port
@@ -47,6 +49,7 @@
       password: "{{ ansible_pass }}"
       xapi_path: ['Configuration', 'Logging', 'External', 'Server', 'Port']
       xapi_value: "514"
+      state: present
     delegate_to: localhost
 
   - name: Disable Syslog TLS Verify

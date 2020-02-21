@@ -4,6 +4,7 @@
         "username": "admin",
         "password": "ciscopsdt",
         "xapi_path": ["Configuration", "NetworkServices", "NTP", "Server", 2, "Address"],
-        "xapi_value": "1.uk.pool.ntp.org"
+        "xapi_value": "1.uk.pool.ntp.org",
+        "state":  "absent"
     }
 }
