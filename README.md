@@ -6,7 +6,5 @@ Ansible module for Cisco CE Endpoint Configuration
 - Run the playbook. e.g ansible-playbook -i hosts.ini example-playbook.yml
 
 ## Todo:
-- Test Check mode
-- Error Handling
-- State present/absent
 - More to be thought of
+- Add more debugging?

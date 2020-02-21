@@ -1,29 +1,66 @@
 #!/usr/bin/python
 
-
-
 ANSIBLE_METADATA = {
-    'metadata_version': '1.1',
+    'metadata_version': '0.1',
     'status': ['preview'],
     'supported_by': 'community'
 }
 
 DOCUMENTATION = '''
 ---
+module: cisco_ce_config
+short_description: Set configuration items of Cisco CE Endpoints
+version_added: "TBC"
+description:
+    - This uses the the Cisco CE Websockets API, using pycows. This should be compiled into the python environment. 
+    - Documentation on the requirements of that module are available on Github https://github.com/cisco-ce/pyxows
+
+author:
+- Paul Hughes (@pauliohughes)
+
+notes:
+    - Tested against CE 9.9.0 on Cisco Webex Room Kit on DevNet SandBox
+    - Will error if you try to set required fields null values
 
 '''
 
 EXAMPLES = '''
+- hosts: roomkit
+  gather_facts: false
+
+  tasks:
+  - name: Set NTP Server 2 hostname
+    cisco_ce_config:
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
+      xapi_path: ['Configuration', 'NetworkServices', 'NTP', 'Server', 2, 'Address']
+      xapi_value: 1.uk.pool.ntp.org
+      state: present
+    delegate_to: localhost
 
 '''
 
 RETURN = '''
+original_xapi_value:
+    description: original value in the xapi
+    type: str
+    returned: always
+xapi_value:
+    description: The value the xapi should be set to. This could be "" if state is absent
+    type: str
+    returned: always
+debug_message: 
+    description: Debug messages
+    type: try
+    returned: sometimes
 
 '''
 
 from ansible.module_utils.basic import AnsibleModule
 
 def run_module():
+
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         hostname=dict(type='str', required=True),
@@ -34,7 +71,6 @@ def run_module():
         state=dict(type='str', default='present', choices=['present', 'absent'])
     )
 
-    
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True
@@ -43,6 +79,7 @@ def run_module():
     import xows
     import asyncio
 
+    # Initilise variables 
     result = dict(
         changed=False,
         original_xapi_value='',
@@ -66,8 +103,8 @@ def run_module():
             set_result = await client.xSet(module.params['xapi_path'], desired_xapi_value)
             return set_result
 
-    
     try:
+        # Get Current config
         get_result = asyncio.run(get_current_config())
         
         # If we need to make sure something is absent set the value to nothing in case it's set
@@ -107,16 +144,11 @@ def run_module():
         error = True
         result['msg'] = "error: %s " % str(e)
 
-        
-    
-    # during the execution of the module, if there is an exception or a
-    # conditional state that effectively causes a failure, run
-    # AnsibleModule.fail_json() to pass in the message and the result
+    # Exit with an error
     if error:
         module.fail_json(**result)
 
-    # in the event of a successful module execution, you will want to
-    # simple AnsibleModule.exit_json(), passing the key/value results
+    # Exit Successfully 
     module.exit_json(**result)
 
 def main():
