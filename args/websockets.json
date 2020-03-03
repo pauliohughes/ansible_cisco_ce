@@ -1,0 +1,8 @@
+{ "ANSIBLE_MODULE_ARGS":
+    {
+        "hostname": "10.10.20.160",
+        "username": "admin",
+        "password": "ciscopsdt",
+        "websocket":  "True"
+    }
+}
