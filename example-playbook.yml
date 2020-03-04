@@ -17,6 +17,7 @@
   - name: Wait for websocket changes to take effect
     pause:
       seconds: 1
+    when: websockets.changed
 
 
   - name: Set NTP Server 2 hostname
