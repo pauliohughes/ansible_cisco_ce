@@ -1,3 +1,4 @@
 pyxows
 # https://github.com/cisco-ce/pyxows
 ansible
+xmltodict
