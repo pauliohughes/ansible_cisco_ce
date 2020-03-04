@@ -20,7 +20,7 @@ author:
 notes:
     - Tested against CE 9.9.0 on Cisco Webex Room Kit on DevNet SandBox
     - Will error if you try to set required fields null values
-    - After enabling websockets, a pause (1 sec is enough) is required before using websockets 
+    - After enabling websockets, a pause (2 sec is enough) is required before using websockets 
 '''
 
 EXAMPLES = '''
@@ -39,7 +39,7 @@ EXAMPLES = '''
 
   - name: Wait for websocket changes to take effect
     pause:
-      seconds: 1
+      seconds: 2
     when: websockets.changed
 '''
 
