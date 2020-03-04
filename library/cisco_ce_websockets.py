@@ -7,14 +7,55 @@ ANSIBLE_METADATA = {
 }
 
 DOCUMENTATION = '''
+module: cisco_ce_websockets
+short_description: Disables/Enables websockets on Cisco CE Endpoints
+version_added: "TBC"
+description:
+    - This uses the HTTP API of Cisco CE.
+    - xmltodict is required
+
+author:
+- Paul Hughes (@pauliohughes)
+
+notes:
+    - Tested against CE 9.9.0 on Cisco Webex Room Kit on DevNet SandBox
+    - Will error if you try to set required fields null values
+    - After enabling websockets, a pause (1 sec is enough) is required before using websockets 
 '''
 
 EXAMPLES = '''
+- hosts: roomkit
+  gather_facts: false
 
+  tasks:
+  - name: Set websockets
+    cisco_ce_websockets:
+      hostname: "{{ ansible_host }}"
+      username: "{{ ansible_user }}"
+      password: "{{ ansible_pass }}"
+      websocket: true
+    delegate_to: localhost
+    register: websockets
+
+  - name: Wait for websocket changes to take effect
+    pause:
+      seconds: 1
+    when: websockets.changed
 '''
 
 RETURN = '''
-
+original_value:
+    description: websocket value before change
+    type: str
+    returned: always
+new_value:
+    description:
+    type: str
+    returned: always
+debug_message: 
+    description: Debug messages
+    type: try
+    returned: sometimes
 '''
 
 from ansible.module_utils.basic import AnsibleModule
